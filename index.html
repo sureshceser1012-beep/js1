@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Storage Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .dark {
+            background-color: #222;
+            color: white;
+        }
+
+        .light {
+            background-color: white;
+            color: black;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Storage Dashboard</h1>
+
+    <button onclick="setDarkTheme()">Set Dark Theme</button>
+    <button onclick="setLightTheme()">Set Light Theme</button>
+    <button onclick="generateToken()">Generate Session Token</button>
+
+    <p id="token"></p>
+
+    <script src="localstorage.js"></script>
+
+    <script>
+        function applyTheme(theme) {
+            document.body.className = theme || "light";
+        }
+
+        function setDarkTheme() {
+            saveTheme("dark");
+            applyTheme("dark");
+        }
+
+        function setLightTheme() {
+            saveTheme("light");
+            applyTheme("light");
+        }
+
+        function generateToken() {
+            const token = Math.random().toString(36).substring(2, 15);
+
+            storeSessionToken(token);
+
+            document.getElementById("token").textContent =
+                "Session Token: " + token;
+        }
+
+        // Apply saved theme when page loads
+        const savedTheme = loadTheme();
+        applyTheme(savedTheme);
+
+        // Display existing session token
+        const savedToken = sessionStorage.getItem("sessionToken");
+
+        if (savedToken) {
+            document.getElementById("token").textContent =
+                "Session Token: " + savedToken;
+        }
+    </script>
+
+</body>
+</html>
